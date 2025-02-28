@@ -1,0 +1,37 @@
+{
+  "name": "@webnt-dev/graphql-processor",
+  "version": "1.0.0",
+  "description": "Processing of graphql",
+  "main": "build/index.mjs",
+  "types": "build/index.d.mts",
+  "files": [
+    "src",
+    "build"
+  ],
+  "type": "module",
+  "scripts": {
+    "build": "tsc --project ./tsconfig.json",
+    "test": "tsx ./test/index.mts",
+		"teste": "tsx ./test/extended.mts"
+  },
+  "keywords": [],
+  "author": {
+    "name": "Bronislav Klučka",
+    "email": "Bronislav.Klucka@webnt.dev"
+  },
+  "license": "BSD-3-Clause",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/webnt-dev/graphql-processor.git"
+  },
+  "homepage": "https://github.com/webnt-dev/graphql-processor",
+  "devDependencies": {
+    "@types/graphql": "^14.2.3",
+    "@types/node": "^22.13.5",
+    "tsx": "^4.19.3",
+    "typescript": "^5.7.3"
+  },
+  "dependencies": {
+    "graphql": "^16.10.0"
+  }
+}
