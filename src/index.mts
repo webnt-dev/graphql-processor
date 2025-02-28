@@ -1,6 +1,7 @@
 import {
 	graphql as _graphql, buildSchema, GraphQLObjectType, GraphQLArgs as _GraphQLArgs,
 	ExecutionResult,
+	GraphQLResolveInfo,
 } from 'graphql';
 // @ts-ignore
 import { addDirectiveResolveFunctionsToSchema } from './graphql-directives.mjs';
@@ -25,10 +26,10 @@ function buildSchemaWithResolvers(resolverMap: any, schemaString: string, direct
 	return schema;
 }
 
-type HandlerFunction = (obj: any, args: any, context: any, info: any) => unknown;
-type AsyncHandlerFunction = (obj: any, args: any, context: any, info: any) => Promise<unknown>;
-type DirectiveFunction = (resolve: ()=>any, obj: any, args: any, context: any, info: any, functionArgs: any) => unknown;
-type AsyncDirectiveFunction = (resolve: ()=>any, obj: any, args: any, context: any, info: any, functionArgs: any) => Promise<unknown>;
+type HandlerFunction = (obj: any, args: any, context: any, info: GraphQLResolveInfo) => unknown;
+type AsyncHandlerFunction = (obj: any, args: any, context: any, info: GraphQLResolveInfo) => Promise<unknown>;
+type DirectiveFunction = (resolve: ()=>any, obj: any, args: any, context: any, info: GraphQLResolveInfo, functionArgs: any) => unknown;
+type AsyncDirectiveFunction = (resolve: ()=>any, obj: any, args: any, context: any, info: GraphQLResolveInfo, functionArgs: any) => Promise<unknown>;
 
 
 export interface GraphQLHandler {
