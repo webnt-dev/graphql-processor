@@ -16,97 +16,97 @@ import { GraphQLError } from 'graphql';
 
 // GraphQL schema definition
 const schema = gql`
-	# directives are evaluated from right to left
-	directive @whatever on FIELD_DEFINITION
-	directive @role(role: String!) on FIELD_DEFINITION
-	directive @upper on FIELD
+  # directives are evaluated from right to left
+  directive @whatever on FIELD_DEFINITION
+  directive @role(role: String!) on FIELD_DEFINITION
+  directive @upper on FIELD
 
-	type Person {
-		name: String!
-		surname: String!
-		fullname: String!
-		secret: String! @whatever @role(role: "ADMIN")
-	}
-	type Query {
-		get: Person!
-	}
+  type Person {
+    name: String!
+    surname: String!
+    fullname: String!
+    secret: String! @whatever @role(role: "ADMIN")
+  }
+  type Query {
+    get: Person!
+  }
 
-	schema {
-		query: Query,
-	}
+  schema {
+    query: Query,
+  }
 `;
 
 interface Person {
-	name: string;
-	surname: string;
-	secret: string;
+  name: string;
+  surname: string;
+  secret: string;
 }
 
 let person = {
-	name: "John",
-	surname: "Doe",
-	secret: "123456789abcd",
+  name: "John",
+  surname: "Doe",
+  secret: "123456789abcd",
 }
 
 const handlers: GraphQLHandler = {
-	Person: {
-		fullname(obj: Person): string {
-			return `${obj.surname} ${obj.name}`;
-		}
-	},
+  Person: {
+    fullname(obj: Person): string {
+      return `${obj.surname} ${obj.name}`;
+    }
+  },
 
-	Query: {
-		get(): Person {
-			return person;
-		}
-	},
+  Query: {
+    get(): Person {
+      return person;
+    }
+  },
 }
 
 
 const directives: GraphQLDirectiveHandler = {
-	role(resolve: ()=>any, obj: any, args: any, context: any): Promise<any> {
-		if (args.role !== context.role) {
-			throw new GraphQLError("Unauthorized", {
-				extensions: {
-					code: "E_ROLE",
-				},
-			});
-		}
-		return resolve();
-	},
+  role(resolve: ()=>any, obj: any, args: any, context: any): Promise<any> {
+    if (args.role !== context.role) {
+      throw new GraphQLError("Unauthorized", {
+        extensions: {
+          code: "E_ROLE",
+        },
+      });
+    }
+    return resolve();
+  },
 
-	async whatever(resolve: ()=>any): Promise<any> {
-		return resolve();
-	},
+  async whatever(resolve: ()=>any): Promise<any> {
+    return resolve();
+  },
 
-	async upper(resolve: ()=>any): Promise<string> {
-		const result = await resolve();
-  	return result.toString().toUpperCase();
-	},
+  async upper(resolve: ()=>any): Promise<string> {
+    const result = await resolve();
+    return result.toString().toUpperCase();
+  },
 }
 
 const contextValue = {
-	role: "ADMIN",
-	extensions: {
-		stack: []
-	}
+  role: "ADMIN",
+  extensions: {
+    stack: []
+  }
 }
 
 const result = await graphql({
-	handlers,
-	directives,
-	schema,
-	source: gql`
-		query {
-			get {
-				name
-				surname
-				fullname
-				secret @upper
-			}
-		}
-	`,
-	contextValue,
+  handlers,
+  directives,
+  schema,
+  source: gql`
+    query {
+      get {
+        name
+        surname
+        fullname
+        secret @upper
+      }
+    }
+  `,
+  contextValue,
 });
 
 console.log(JSON.parse(JSON.stringify(result)));
@@ -161,15 +161,15 @@ HandlerFunction | AsyncHandlerFunction
 <dl>
   <dt><strong>obj</strong></dt>
   <dd>Parent object on which the handler function is called or <code>rootValue</code> parameter of <code>graphql</code> function (see <a href="./test/index.mts">tests</a>) </dd>
-	<dd>In this example, first <code>get</code> if called with <code>null</code> value and returns Person, this person is then <code>obj</code> for <code>fullname</code> handler.</dd>
-	<dt><strong>args</strong></dt>
-	<dd>Field arguments. <code>args</code> is a map/object with properties having parameter names.</dd>
+  <dd>In this example, first <code>get</code> if called with <code>null</code> value and returns Person, this person is then <code>obj</code> for <code>fullname</code> handler.</dd>
+  <dt><strong>args</strong></dt>
+  <dd>Field arguments. <code>args</code> is a map/object with properties having parameter names.</dd>
   <dd>See <a href="./test/index.mts">tests</a> for more examples </dd>
-	<dt><strong>context</strong></dt>
-	<dd><code>contextValue</code> parameter of <code>graphql</code> function.</dd>
-	<dd>Parameter is passed through all functions and represents global state (e.g. information about user)</dd>
-	<dt><strong>info</strong></dt>
-	<dd>information about current GraphQL node (AST, etc.)</dd>
+  <dt><strong>context</strong></dt>
+  <dd><code>contextValue</code> parameter of <code>graphql</code> function.</dd>
+  <dd>Parameter is passed through all functions and represents global state (e.g. information about user)</dd>
+  <dt><strong>info</strong></dt>
+  <dd>information about current GraphQL node (AST, etc.)</dd>
 </dl>
 
 See <a href="./test/index.mts">tests</a> for more examples.
@@ -189,21 +189,21 @@ DirectiveFunction | AsyncDirectiveFunction
 ```
 
 <dl>
-	<dt><strong>resolve</strong></dt>
-	<dd>Function containing the value of evaluation of next resolver.</dd>
+  <dt><strong>resolve</strong></dt>
+  <dd>Function containing the value of evaluation of next resolver.</dd>
   <dt><strong>obj</strong></dt>
   <dd>Parent object on which the handler function is called or <code>rootValue</code> parameter of <code>graphql</code> function (see <a href="./test/index.mts">tests</a>) </dd>
-	<dd>In this example, first <code>get</code> if called with <code>null</code> value and returns Person, this person is then <code>obj</code> for <code>fullname</code> handler.</dd>
-	<dt><strong>args</strong></dt>
-	<dd>directive arguments. <code>args</code> is a map/object with properties having parameter names.</dd>
+  <dd>In this example, first <code>get</code> if called with <code>null</code> value and returns Person, this person is then <code>obj</code> for <code>fullname</code> handler.</dd>
+  <dt><strong>args</strong></dt>
+  <dd>directive arguments. <code>args</code> is a map/object with properties having parameter names.</dd>
   <dd>See <a href="./test/index.mts">tests</a> for more examples </dd>
-	<dt><strong>context</strong></dt>
-	<dd><code>contextValue</code> parameter of <code>graphql</code> function.</dd>
-	<dd>Parameter is passed through all functions and represents global state (e.g. information about user)</dd>
-	<dt><strong>info</strong></dt>
-	<dd>information about current GraphQL node (AST, etc.)</dd>
-	<dt><strong>functionArgs</strong></dt>
-	<dd>Field arguments. <code>args</code> is a map/object with properties having parameter names.</dd>
+  <dt><strong>context</strong></dt>
+  <dd><code>contextValue</code> parameter of <code>graphql</code> function.</dd>
+  <dd>Parameter is passed through all functions and represents global state (e.g. information about user)</dd>
+  <dt><strong>info</strong></dt>
+  <dd>information about current GraphQL node (AST, etc.)</dd>
+  <dt><strong>functionArgs</strong></dt>
+  <dd>Field arguments. <code>args</code> is a map/object with properties having parameter names.</dd>
   <dd>See <a href="./test/index.mts">tests</a> for more examples </dd>
 </dl>
 
