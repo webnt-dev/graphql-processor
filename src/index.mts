@@ -50,6 +50,7 @@ export interface GraphQLArgs extends Omit<_GraphQLArgs, 'schema' | 'fieldResolve
 
 export async function graphql(args: GraphQLArgs): Promise<ExecutionResult>;
 export async function graphql<TData>(args: GraphQLArgs): Promise<ExecutionResult<TData>>;
+export async function graphql<TData, TExtensions>(args: GraphQLArgs): Promise<ExecutionResult<TData, TExtensions>>;
 export async function graphql<TData, TExtensions>(args: GraphQLArgs): Promise<ExecutionResult<TData, TExtensions>> {
 	const realArgs: _GraphQLArgs = {
 		...args,
