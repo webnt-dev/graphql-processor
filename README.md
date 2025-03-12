@@ -226,6 +226,11 @@ See <a href="./test/index.mts">tests</a> for more examples.
 
 Any missing version means mostly documentation fixes.
 
+## version 1.0.2
++ overload function for graphql function
+@ package version
+2025-03-12
+
 ## version 1.0.0
 2025-02-28
 ```
