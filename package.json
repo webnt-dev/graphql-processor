@@ -1,6 +1,6 @@
 {
   "name": "@webnt-dev/graphql-processor",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Processing of graphql",
   "main": "build/index.mjs",
   "types": "build/index.d.mts",
